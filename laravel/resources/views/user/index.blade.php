@@ -20,9 +20,9 @@
                         <td>{{ $item->nama }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td>
-                            <a href="#"><button class="btn btn-warning">Lihat</button></a>
-                            <a href="#"><button class="btn btn-primary">Edit</button></a>
-                            <a href="#"><button class="btn btn-danger">Hapus</button></a>
+                            <a href="{{ route('users.show', $item->id) }}"><button class="btn btn-warning">Lihat</button></a>
+                            <a href="{{ route('users.edit', $item->id) }}"><button class="btn btn-primary">Edit</button></a>
+                            <a href="{{ route('users.destroy', $item->id) }}" data-confirm-delete="true"><button class="btn btn-danger">Hapus</button></a>
                         </td>
                     </tr>
                 @endforeach

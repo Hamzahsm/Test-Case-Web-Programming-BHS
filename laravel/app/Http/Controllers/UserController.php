@@ -16,13 +16,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        // return view('user.create-cv');
-        $titleDelete = 'Hapus CV ?';
-        $textDelete = 'Apakah Anda yakin ?';
-        confirmDelete($titleDelete, $textDelete);
-
-        $data = Resume::all();
-        return view('user.create-cv', compact('data'));
+        return view('user.create-cv');
     }
 
     /**
@@ -52,7 +46,6 @@ class UserController extends Controller
         if($create) {
             Alert::success('Selamat!', 'CV Online Anda berhasil dibuat !');
             return redirect()->route('users.index');
-            // return redirect()->route('dashboard')->with('success', 'CV Berhasil dibuat!');
         }
 
         return abort(500);
@@ -64,6 +57,8 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
+        $data = Resume::findOrFail($id);
+        return view('user.show', compact($data));
     }
 
     /**
@@ -72,6 +67,8 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
+        $data = Resume::findOrFail($id);
+        return view('user.edit', compact($data));
     }
 
     /**

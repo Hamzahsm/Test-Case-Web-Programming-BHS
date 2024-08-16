@@ -7,15 +7,6 @@ use App\Models\Resume;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified']); //verified user
-    }
 
     /**
      * Show the application dashboard.
@@ -24,6 +15,10 @@ class AuthController extends Controller
      */
     public function index()
     {
+        $titleDelete = 'Hapus CV ?';
+        $textDelete = 'Apakah Anda yakin ?';
+        confirmDelete($titleDelete, $textDelete);
+
         $data = Resume::all();
         return view('user.index', compact('data'));
     }
