@@ -14,3 +14,5 @@
 <!-- then, we focus on back end , CRUD system -->
 
 <!-- break jum'atan , lanjut part II-nya gaiss -->
+
+<!-- let focus on CRUD system -->

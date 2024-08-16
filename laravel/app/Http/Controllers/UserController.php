@@ -3,26 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Resume;
+use App\Http\Requests\StoreRequest; //request
+use Alert; //sweet alert
 
 class UserController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware(['auth', 'verified']); //verified user
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        return view('user.create-cv');
+        // return view('user.create-cv');
+        $titleDelete = 'Hapus CV ?';
+        $textDelete = 'Apakah Anda yakin ?';
+        confirmDelete($titleDelete, $textDelete);
+
+        $data = Resume::all();
+        return view('user.create-cv', compact('data'));
     }
 
     /**
@@ -36,9 +36,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        // dd($request);
+        $validated = $request->validated();
+
+        if($request->hasFile('foto_profile')) {
+            $filePath = Storage::disk('public')->put('user', request()->file('foto_profile'));
+            $validated['foto_profile'] = $filePath;
+        } 
+
+        $validated['user_id'] = auth()->user()->id;
+
+        $create = Resume::create($validated);
+        if($create) {
+            Alert::success('Selamat!', 'CV Online Anda berhasil dibuat !');
+            return redirect()->route('users.index');
+            // return redirect()->route('dashboard')->with('success', 'CV Berhasil dibuat!');
+        }
+
+        return abort(500);
     }
 
     /**
